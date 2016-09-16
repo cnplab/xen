@@ -1,7 +1,7 @@
 
 structs                   |   arm32   arm64  x86_32  x86_64
 
-start_info                |       -       -    1112    1168
+start_info                |       -       -    1120    1184
 trap_info                 |       -       -       8      16
 cpu_user_regs             |       -       -      68     200
 vcpu_guest_core_regs      |     304     304       -       -

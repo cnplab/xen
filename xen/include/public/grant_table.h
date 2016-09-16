@@ -149,6 +149,7 @@ typedef struct grant_entry_v1 grant_entry_v1_t;
 #define GNTTAB_NR_RESERVED_ENTRIES     8
 #define GNTTAB_RESERVED_CONSOLE        0
 #define GNTTAB_RESERVED_XENSTORE       1
+#define GNTTAB_RESERVED_NOXS           2
 
 /*
  * Type of grant entry.
