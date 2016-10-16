@@ -1096,7 +1096,6 @@ static int x86_pv_stream_complete(struct xc_sr_context *ctx)
     rc = xc_dom_gnttab_seed(xch, ctx->domid,
                             ctx->restore.console_gfn,
                             ctx->restore.xenstore_gfn,
-                            0, /* FIXME: support for restore */
                             ctx->restore.console_domid,
                             ctx->restore.xenstore_domid);
     if ( rc )

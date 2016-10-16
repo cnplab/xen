@@ -226,8 +226,6 @@ int xc_dom_boot_image(struct xc_dom_image *dom)
         return rc;
     if ( (rc = clear_page(dom, dom->xenstore_pfn)) != 0 )
         return rc;
-    if ( (rc = clear_page(dom, dom->noxs_pfn)) != 0 )
-        return rc;
 
     /* start info page */
     if ( dom->arch_hooks->start_info )
@@ -285,7 +283,6 @@ static xen_pfn_t xc_dom_gnttab_setup(xc_interface *xch, domid_t domid)
 int xc_dom_gnttab_seed(xc_interface *xch, domid_t domid,
                        xen_pfn_t console_gmfn,
                        xen_pfn_t xenstore_gmfn,
-                       xen_pfn_t noxs_gmfn,
                        domid_t console_domid,
                        domid_t xenstore_domid)
 {
@@ -322,13 +319,6 @@ int xc_dom_gnttab_seed(xc_interface *xch, domid_t domid,
         gnttab[GNTTAB_RESERVED_XENSTORE].flags = GTF_permit_access;
         gnttab[GNTTAB_RESERVED_XENSTORE].domid = xenstore_domid;
         gnttab[GNTTAB_RESERVED_XENSTORE].frame = xenstore_gmfn;
-    }
-
-    if ( domid != xenstore_domid && noxs_gmfn != -1)
-    {
-        gnttab[GNTTAB_RESERVED_NOXS].flags = GTF_permit_access;
-        gnttab[GNTTAB_RESERVED_NOXS].domid = xenstore_domid;
-        gnttab[GNTTAB_RESERVED_NOXS].frame = noxs_gmfn;
     }
 
     if ( munmap(gnttab, PAGE_SIZE) == -1 )
@@ -391,7 +381,7 @@ int xc_dom_gnttab_hvm_seed(xc_interface *xch, domid_t domid,
     }
 
     rc = xc_dom_gnttab_seed(xch, domid,
-                            console_gpfn, xenstore_gpfn, 0, /* FIXME: support for HVM */
+                            console_gpfn, xenstore_gpfn,
                             console_domid, xenstore_domid);
     if (rc != 0)
     {
@@ -425,7 +415,6 @@ int xc_dom_gnttab_init(struct xc_dom_image *dom)
         return xc_dom_gnttab_seed(dom->xch, dom->guest_domid,
                                   xc_dom_p2m(dom, dom->console_pfn),
                                   xc_dom_p2m(dom, dom->xenstore_pfn),
-                                  xc_dom_p2m(dom, dom->noxs_pfn),
                                   dom->console_domid, dom->xenstore_domid);
     }
 }

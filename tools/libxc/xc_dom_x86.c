@@ -543,9 +543,6 @@ static int alloc_magic_pages(struct xc_dom_image *dom)
     dom->xenstore_pfn = xc_dom_alloc_page(dom, "xenstore");
     if ( dom->xenstore_pfn == INVALID_PFN )
         return -1;
-    dom->noxs_pfn = xc_dom_alloc_page(dom, "noxs");
-    if ( dom->noxs_pfn == INVALID_PFN )
-        return -1;
     dom->console_pfn = xc_dom_alloc_page(dom, "console");
     if ( dom->console_pfn == INVALID_PFN )
         return -1;
@@ -746,8 +743,6 @@ static int start_info_x86_32(struct xc_dom_image *dom)
     start_info->flags = dom->flags;
     start_info->store_mfn = xc_dom_p2m(dom, dom->xenstore_pfn);
     start_info->store_evtchn = dom->xenstore_evtchn;
-    start_info->noxs_mfn = xc_dom_p2m(dom, dom->noxs_pfn);
-    start_info->noxs_evtchn = dom->noxs_evtchn;
     start_info->console.domU.mfn = xc_dom_p2m(dom, dom->console_pfn);
     start_info->console.domU.evtchn = dom->console_evtchn;
 
@@ -800,8 +795,6 @@ static int start_info_x86_64(struct xc_dom_image *dom)
     start_info->flags = dom->flags;
     start_info->store_mfn = xc_dom_p2m(dom, dom->xenstore_pfn);
     start_info->store_evtchn = dom->xenstore_evtchn;
-    start_info->noxs_mfn = xc_dom_p2m(dom, dom->noxs_pfn);
-    start_info->noxs_evtchn = dom->noxs_evtchn;
     start_info->console.domU.mfn = xc_dom_p2m(dom, dom->console_pfn);
     start_info->console.domU.evtchn = dom->console_evtchn;
 

@@ -96,7 +96,6 @@ struct xc_dom_image {
     xen_pfn_t start_info_pfn;
     xen_pfn_t console_pfn;
     xen_pfn_t xenstore_pfn;
-    xen_pfn_t noxs_pfn;
     xen_pfn_t shared_info_pfn;
     xen_pfn_t bootstack_pfn;
     xen_pfn_t pfn_alloc_end;
@@ -162,7 +161,6 @@ struct xc_dom_image {
     unsigned long flags;
     unsigned int console_evtchn;
     unsigned int xenstore_evtchn;
-    unsigned int noxs_evtchn;
     domid_t console_domid;
     domid_t xenstore_domid;
     xen_pfn_t shared_info_mfn;
@@ -335,7 +333,6 @@ int xc_dom_gnttab_hvm_seed(xc_interface *xch, domid_t domid,
 int xc_dom_gnttab_seed(xc_interface *xch, domid_t domid,
                        xen_pfn_t console_gmfn,
                        xen_pfn_t xenstore_gmfn,
-                       xen_pfn_t noxs_gmfn,
                        domid_t console_domid,
                        domid_t xenstore_domid);
 int xc_dom_feature_translated(struct xc_dom_image *dom);
