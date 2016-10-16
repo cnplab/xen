@@ -799,8 +799,6 @@ struct start_info {
     uint32_t flags;             /* SIF_xxx flags.                         */
     xen_pfn_t store_mfn;        /* MACHINE page number of shared page.    */
     uint32_t store_evtchn;      /* Event channel for store communication. */
-    xen_pfn_t noxs_mfn;         /* MACHINE page number of shared page.    */
-    uint32_t noxs_evtchn;       /* Event channel for store communication. */
     union {
         struct {
             xen_pfn_t mfn;      /* MACHINE page number of console page.   */
