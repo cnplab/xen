@@ -15,6 +15,7 @@
 #include <public/tmem.h>
 #include <public/version.h>
 #include <public/pmu.h>
+#include <public/devctl.h>
 #include <asm/hypercall.h>
 #include <xsm/xsm.h>
 
@@ -140,6 +141,9 @@ do_xenoprof_op(int op, XEN_GUEST_HANDLE_PARAM(void) arg);
 
 extern long
 do_xenpmu_op(unsigned int op, XEN_GUEST_HANDLE_PARAM(xen_pmu_params_t) arg);
+
+extern long
+do_devctl(XEN_GUEST_HANDLE_PARAM(xen_devctl_t) u_devctl);
 
 #ifdef CONFIG_COMPAT
 

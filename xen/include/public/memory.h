@@ -225,6 +225,7 @@ DEFINE_XEN_GUEST_HANDLE(xen_machphys_mapping_t);
                                       Stage-2 using the memory attribute
                                       "Device-nGnRE" (previously named
                                       "Device" on ARMv7) */
+#define XENMAPSPACE_device_page  6 /* device page */
 /* ` } */
 
 /*

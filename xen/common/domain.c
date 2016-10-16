@@ -43,6 +43,7 @@
 #include <xen/trace.h>
 #include <xen/tmem.h>
 #include <asm/setup.h>
+#include <xen/noxs.h>
 
 /* Linux config option: propageted to domain0 */
 /* xen_processor_pmbits: xen control Cx, Px, ... */
@@ -261,7 +262,8 @@ struct domain *domain_create(domid_t domid, unsigned int domcr_flags,
 {
     struct domain *d, **pd, *old_hwdom = NULL;
     enum { INIT_xsm = 1u<<0, INIT_watchdog = 1u<<1, INIT_rangeset = 1u<<2,
-           INIT_evtchn = 1u<<3, INIT_gnttab = 1u<<4, INIT_arch = 1u<<5 };
+           INIT_evtchn = 1u<<3, INIT_gnttab = 1u<<4, INIT_arch = 1u<<5,
+           INIT_noxs = 1u<<6 };
     int err, init_status = 0;
     int poolid = CPUPOOLID_NONE;
 
@@ -379,6 +381,10 @@ struct domain *domain_create(domid_t domid, unsigned int domcr_flags,
         goto fail;
     init_status |= INIT_arch;
 
+    if ( (err = noxs_init(d)) != 0 )
+        goto fail;
+    init_status |= INIT_noxs;
+
     if ( (err = sched_init_domain(d, poolid)) != 0 )
         goto fail;
 
@@ -408,6 +414,8 @@ struct domain *domain_create(domid_t domid, unsigned int domcr_flags,
     atomic_set(&d->refcnt, DOMAIN_DESTROYED);
     xfree(d->vm_event);
     xfree(d->pbuf);
+    if ( init_status & INIT_noxs )
+        noxs_destroy(d);
     if ( init_status & INIT_arch )
         arch_domain_destroy(d);
     if ( init_status & INIT_gnttab )
@@ -811,6 +819,8 @@ static void complete_domain_destroy(struct rcu_head *head)
     grant_table_destroy(d);
 
     arch_domain_destroy(d);
+
+    free_xenheap_page(d->device_page);
 
     watchdog_domain_destroy(d);
 

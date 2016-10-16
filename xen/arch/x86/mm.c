@@ -4796,6 +4796,10 @@ int xenmem_add_to_physmap_one(
             if ( idx == 0 )
                 mfn = virt_to_mfn(d->shared_info);
             break;
+        case XENMAPSPACE_device_page:
+            if ( idx == 0 )
+                mfn = virt_to_mfn(d->device_page);
+            break;
         case XENMAPSPACE_grant_table:
             grant_write_lock(d->grant_table);
 

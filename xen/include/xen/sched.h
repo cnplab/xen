@@ -27,6 +27,7 @@
 #include <public/vcpu.h>
 #include <public/vm_event.h>
 #include <public/event_channel.h>
+#include <public/io/noxs.h>
 
 #ifdef CONFIG_COMPAT
 #include <compat/vcpu.h>
@@ -316,6 +317,8 @@ struct domain
     struct vcpu    **vcpu;
 
     shared_info_t   *shared_info;     /* shared data area */
+
+    noxs_dev_page_t *device_page;
 
     spinlock_t       domain_lock;
 
