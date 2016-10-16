@@ -8,9 +8,9 @@
 #ifndef XEN_PUBLIC_IO_NOXS_H_
 #define XEN_PUBLIC_IO_NOXS_H_
 
+#include "../xen.h"
 #include "../event_channel.h"
 #include "../grant_table.h"
-#include "xenbus.h"/*TODO temporary, for XenbusState only*/
 
 
 #define NOXS_DEV_COUNT_MAX 32
