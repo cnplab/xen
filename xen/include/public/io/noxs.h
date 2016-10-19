@@ -45,6 +45,8 @@ typedef struct noxs_dev_comm noxs_dev_comm_t;
 
 struct noxs_dev_page_entry {
 	noxs_dev_type_t type;
+	noxs_dev_id_t id;
+
 	domid_t be_id;
 	noxs_dev_comm_t comm;
 };
