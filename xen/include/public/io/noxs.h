@@ -21,6 +21,7 @@ typedef uint32_t noxs_dev_id_t;
 
 enum noxs_dev_type {
 	noxs_dev_none = 0,
+	noxs_dev_sysctl,
 	noxs_dev_console,
 	noxs_dev_vif,
 };
@@ -83,6 +84,33 @@ typedef struct noxs_ctrl_hdr noxs_ctrl_hdr_t;
 /*
  * DEVICE SPECIFIC
  */
+
+/* Sysctl device */
+struct sysctl_fe_features {
+    uint8_t poweroff:1;
+    uint8_t reboot:1;
+    uint8_t suspend:1;
+    uint8_t platform_multiprocessor_suspend:1;
+};
+
+struct noxs_sysctl_ctrl_page {
+	noxs_ctrl_hdr_t hdr;
+	struct sysctl_fe_features fe_feat;
+
+	union {
+	    struct {
+	        uint8_t poweroff:1;
+	        uint8_t reboot:1;
+	        uint8_t suspend:1;
+	        uint8_t crash:1;
+	        uint8_t watchdog:1;
+	    } bits;
+
+	    uint8_t status;
+	};
+};
+typedef struct noxs_sysctl_ctrl_page noxs_sysctl_ctrl_page_t;
+
 
 /* Network device */
 struct vif_be_features {
