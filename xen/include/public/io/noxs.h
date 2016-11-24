@@ -145,6 +145,7 @@ struct vif_fe_features {
 };
 
 #define ETH_LEN    6       /* Octets in one ethernet address */
+#define IF_LEN     16
 
 struct noxs_vif_ctrl_page {
 	noxs_ctrl_hdr_t hdr;
@@ -166,6 +167,7 @@ struct noxs_vif_ctrl_page {
 
 	uint8_t mac[ETH_LEN];
 	uint32_t ip;
+	char bridge[IF_LEN];
 };
 typedef struct noxs_vif_ctrl_page noxs_vif_ctrl_page_t;
 
@@ -177,6 +179,7 @@ typedef struct noxs_vif_ctrl_page noxs_vif_ctrl_page_t;
 struct noxs_cfg_vif {
 	uint8_t mac[ETH_LEN];
 	uint32_t ip;
+	char bridge[IF_LEN];
 };
 typedef struct noxs_cfg_vif noxs_cfg_vif_t;
 
