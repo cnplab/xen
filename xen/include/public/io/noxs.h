@@ -24,6 +24,7 @@ enum noxs_dev_type {
 	noxs_dev_sysctl,
 	noxs_dev_console,
 	noxs_dev_vif,
+	noxs_dev_vbd,
 };
 typedef enum noxs_dev_type noxs_dev_type_t;
 
@@ -170,6 +171,52 @@ struct noxs_vif_ctrl_page {
 	char bridge[IF_LEN];
 };
 typedef struct noxs_vif_ctrl_page noxs_vif_ctrl_page_t;
+
+
+/* Block device */
+struct vbd_be_features {
+	uint16_t max_indirect_segments;
+	uint8_t persistent:1;
+	uint8_t barrier:1;
+	uint8_t flush_cache:1;
+	uint8_t discard:1;
+};
+
+struct vbd_fe_features {
+	uint8_t persistent:1;
+};
+
+struct noxs_vbd_ctrl_page {
+	noxs_ctrl_hdr_t hdr;
+	int vifid;
+	struct vbd_be_features be_feat;
+	int multi_queue_max_queues;
+	int multi_queue_num_queues;
+
+	int max_ring_page_order;
+	int ring_page_order;
+
+	unsigned major;
+	unsigned minor;
+
+	int discard_enable;
+	int discard_granularity;
+	int discard_alignment;
+	int discard_secure;
+
+
+	unsigned int mode;
+	unsigned int info;
+	unsigned int sectors;
+	unsigned int sector_size;
+	unsigned int physical_sector_size;
+
+	struct vbd_fe_features fe_feat;
+	grant_ref_t ring_ref[16];
+	evtchn_port_t evtchn;
+	char protocol[64];
+};
+typedef struct noxs_vbd_ctrl_page noxs_vbd_ctrl_page_t;
 
 
 /*
