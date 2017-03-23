@@ -59,7 +59,7 @@ int noxs_dev_rem(struct domain* d, noxs_dev_key_t* key)
     int i;
     noxs_dev_page_entry_t* dev;
 
-    for (i = 0; i < d->device_page->dev_count; i++) {
+    for (i = 0; i < NOXS_DEV_COUNT_MAX; i++) {
         dev = &(d->device_page->devs[i]);
 
         if (dev->type == key->type || dev->id == key->devid) {
