@@ -70,6 +70,14 @@ enum noxs_watch_state {
 };
 typedef enum noxs_watch_state noxs_watch_state_t;
 
+#define CONFIG_NOXS_TRACE 1
+#ifdef CONFIG_NOXS_TRACE
+struct noxs_timestamp {
+    long sec;
+    long nsec;
+};
+typedef struct noxs_timestamp noxs_timestamp_t;
+#endif
 
 struct noxs_ctrl_hdr {
 	int devid;
@@ -78,6 +86,12 @@ struct noxs_ctrl_hdr {
 
 	noxs_watch_state_t fe_watch_state;
 	noxs_watch_state_t be_watch_state;
+
+#ifdef CONFIG_NOXS_TRACE
+	int ready;
+	noxs_timestamp_t ts_create;
+	noxs_timestamp_t ts_ready;
+#endif
 };
 typedef struct noxs_ctrl_hdr noxs_ctrl_hdr_t;
 
